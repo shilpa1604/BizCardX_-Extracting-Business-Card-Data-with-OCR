@@ -32,9 +32,9 @@ To get started with BizCardX Data Extraction, follow the steps below:
 Install the required libraries using the pip install command. Streamlit, mysql.connector, pandas, easyocr.
 
 pip install [Name of the library]
-Execute the “BizCardX_main.py” using the streamlit run command.
+Execute the “bizcard_ocr.py” using the streamlit run command.
 
-streamlit run BizCardX_main.py
+streamlit run bizcard_ocr.py
 A webpage is displayed in browser, I have created the app with three menu options namely HOME, UPLOAD & EXTRACT, MODIFY where user has the option to upload the respective Business Card whose information has to be extracted, stored, modified or deleted if needed.
 
 Once user uploads a business card, the text present in the card is extracted by easyocr library.
