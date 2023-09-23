@@ -11,23 +11,21 @@ import re
 
 # SETTING PAGE CONFIGURATIONS
 icon = Image.open("icon.png")
-st.set_page_config(page_title="BizCardX: Extracting Business Card Data with OCR",
+st.set_page_config(page_title="BizCardX: Extracting Business Card Data with OCR | By Shilpa Gupta",
                    page_icon=icon,
                    layout="wide",
                    initial_sidebar_state="expanded",
-
-                   menu_items={'About': """# This is an OCR app for extracting details from business cards"""})
-st.markdown("<h1 style='text-align: center; color: red;'>BizCardX: Extracting Business Card Data with OCR</h1>",
+                   menu_items={'About': """# This OCR app is created by *Shilpa Gupta*!"""})
+st.markdown("<h1 style='text-align: center; color: white;'>BizCardX: Extracting Business Card Data with OCR</h1>",
             unsafe_allow_html=True)
 
 
 # SETTING-UP BACKGROUND IMAGE
 def setting_bg():
     st.markdown(f""" <style>.stApp {{
-                        background: url("File Path:  https://cutewallpaper.org/21x/hianxltb9/Editable-Low-Poly-Backgrounds-for-PowerPoint.jpg");
+                        background: url("https://cutewallpaper.org/22/plane-colour-background-wallpapers/189265759.jpg");
                         background-size: cover}}
                      </style>""", unsafe_allow_html=True)
-
 
 
 setting_bg()
@@ -44,11 +42,11 @@ selected = option_menu(None, ["Home", "Upload & Extract", "Modify"],
                                "nav-link-selected": {"background-color": "#6495ED"}})
 
 # INITIALIZING THE EasyOCR READER
-reader = easyocr.Reader(['en','hi'])
+reader = easyocr.Reader(['en'])
 
 # CONNECTING WITH MYSQL DATABASE
 mydb = sql.connect(host="localhost",
-                   user=???,
+                   user="root",
                    password=???,
                    database="bizcardx_db"
                    )
@@ -74,13 +72,9 @@ mycursor.execute('''CREATE TABLE IF NOT EXISTS card_data
 if selected == "Home":
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("## :blue[**Technologies Used :**] Python,easy OCR, Streamlit, SQL, Pandas")
+        st.markdown("## :green[**Technologies Used :**] Python,easy OCR, Streamlit, SQL, Pandas")
         st.markdown(
-            "## :blue[**Overview :**] In this streamlit web app you can upload an image of a business card and "
-            "extract relevant information from it using easyOCR. You can view, modify or delete the extracted data in "
-            "this app. This app would also allow users to save the extracted information into a database along with "
-            "the uploaded business card image. The database would be able to store multiple entries, each with its "
-            "own business card image and extracted information.")
+            "## :green[**Overview :**] In this streamlit web app you can upload an image of a business card and extract relevant information from it using easyOCR. You can view, modify or delete the extracted data in this app. This app would also allow users to save the extracted information into a database along with the uploaded business card image. The database would be able to store multiple entries, each with its own business card image and extracted information.")
     with col2:
         st.image("home.png")
 
@@ -161,7 +155,6 @@ if selected == "Upload & Extract":
                 }
 
 
-
         def get_data(res):
             for ind, i in enumerate(res):
 
@@ -176,7 +169,7 @@ if selected == "Upload & Extract":
                     data["email"].append(i)
 
                 # To get MOBILE NUMBER
-                elif "-" in i or i[0] == "+":
+                elif "-" in i:
                     data["mobile_number"].append(i)
                     if len(data["mobile_number"]) == 2:
                         data["mobile_number"] = " & ".join(data["mobile_number"])
@@ -224,8 +217,6 @@ if selected == "Upload & Extract":
                     data["pin_code"].append(i)
                 elif re.findall('[a-zA-Z]{9} +[0-9]', i):
                     data["pin_code"].append(i[10:])
-
-
 
 
         get_data(result)
